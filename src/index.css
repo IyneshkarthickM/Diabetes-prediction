@@ -1,0 +1,278 @@
+/* ===========================
+   Global Styles (Light Theme)
+   =========================== */
+
+body {
+  margin: 0;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Light gradient background with subtle animation */
+  background: linear-gradient(135deg, #f0f9ff, #e6f0ff, #fff);
+  background-size: 200% 200%;
+  animation: gradientShift 12s ease infinite;
+
+  color: #1e293b;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+/* Smooth transitions everywhere */
+* {
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0.6rem 0;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+/* Paragraphs */
+p {
+  color: #334155;
+  line-height: 1.7;
+  margin: 0.4rem 0;
+  font-size: 1.05rem;
+}
+
+/* Code */
+code {
+  font-family: "Source Code Pro", Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  color: #2563eb;
+  font-size: 0.95rem;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 500;
+  position: relative;
+}
+a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+a:hover {
+  color: #1d4ed8;
+}
+a:hover::after {
+  width: 100%;
+}
+
+/* ===========================
+   Buttons
+   =========================== */
+button,
+input[type="submit"] {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.6rem;
+  font-size: 1rem;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.3);
+}
+
+button:active,
+input[type="submit"]:active {
+  transform: scale(0.97);
+}
+
+button.secondary {
+  background: transparent;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+}
+button.secondary:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+/* ===========================
+   Cards
+   =========================== */
+.card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 1.6rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+}
+.card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: #1e293b;
+}
+.card p {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Card accents */
+.card.red {
+  border-left: 6px solid #ef4444;
+}
+.card.green {
+  border-left: 6px solid #22c55e;
+}
+.card.blue {
+  border-left: 6px solid #2563eb;
+}
+.card.purple {
+  border-left: 6px solid #7c3aed;
+}
+.card.orange {
+  border-left: 6px solid #f97316;
+}
+
+/* ===========================
+   Inputs + Forms
+   =========================== */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin: 0.5rem 0 1.2rem 0;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  font-size: 1rem;
+  background: #fff;
+  color: #1e293b;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border: 2px solid #2563eb;
+  background: #f8fafc;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.25);
+}
+
+/* ===========================
+   Glassmorphism Container
+   =========================== */
+.glass-container {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-radius: 22px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
+  margin: 2rem auto;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  color: #1e293b;
+  animation: fadeInGlass 0.7s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 900px;
+}
+.glass-container:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+.glass-container h2,
+.glass-container h3 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.6rem;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.glass-container p {
+  color: #475569;
+  line-height: 1.7;
+  font-size: 1.07rem;
+  margin-bottom: 1rem;
+}
+.glass-container hr {
+  margin: 2rem 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(148, 163, 184, 0.6),
+    transparent
+  );
+}
+
+@keyframes fadeInGlass {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===========================
+   Scrollbar
+   =========================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}

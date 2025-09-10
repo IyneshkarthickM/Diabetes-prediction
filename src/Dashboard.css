@@ -1,0 +1,180 @@
+/* =============================
+   Dashboard (Enhanced Styling)
+   ============================= */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #cce5ff, #e6ccff, #f9f7ff);
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  color: #2d3748;
+}
+
+/* ===== Dashboard Container ===== */
+.dashboard {
+  padding: 40px;
+  max-width: 1100px;
+  margin: auto;
+  backdrop-filter: blur(14px) saturate(120%);
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 22px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.6s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* ===== Tabs ===== */
+.tabs {
+  margin-top: 25px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  padding: 12px 26px;
+  border: none;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+.tabs button:hover {
+  background: linear-gradient(135deg, #2966ff, #5a8cff);
+  color: #fff;
+}
+
+.tabs button.active {
+  background: linear-gradient(135deg, #2966ff, #5a8cff);
+  color: #fff;
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(41, 102, 255, 0.3);
+}
+
+/* ===== Records Section ===== */
+.records-section {
+  margin-top: 40px;
+  position: relative;
+}
+
+/* Add Record Button */
+.add-record-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: linear-gradient(135deg, #2966ff, #5a8cff);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(41, 102, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.add-record-btn:hover {
+  background: linear-gradient(135deg, #003cb3, #2955d9);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(41, 102, 255, 0.35);
+}
+
+/* ===== Record Card ===== */
+.record-card {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 28px;
+  margin-top: 90px;
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideUp 0.5s ease;
+}
+
+.record-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #1e293b;
+  border-bottom: 2px solid rgba(41, 102, 255, 0.15);
+  padding-bottom: 6px;
+}
+
+/* Details */
+.record-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  font-size: 1rem;
+  color: #475569;
+}
+
+/* Symptom Chips */
+.symptom-chip {
+  display: inline-block;
+  background: #fde2e2;
+  color: #d32f2f;
+  padding: 7px 16px;
+  margin: 6px 6px 0 0;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2);
+  transition: all 0.25s ease;
+}
+
+.symptom-chip:hover {
+  background: #ffb3b3;
+  color: #b71c1c;
+  transform: translateY(-3px);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 24px;
+  }
+  .record-card {
+    padding: 20px;
+  }
+  .tabs {
+    gap: 12px;
+  }
+  .tabs button {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+}

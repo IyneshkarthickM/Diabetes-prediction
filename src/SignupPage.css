@@ -1,0 +1,200 @@
+/* Signup Page Wrapper */
+.signup-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #4c1d95, #7c3aed, #a78bfa);
+}
+
+/* Glassmorphism Container (same as Login) */
+.signup-container {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(220%);
+  -webkit-backdrop-filter: blur(20px) saturate(220%);
+  border-radius: 24px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 36px rgba(124, 58, 237, 0.4);
+  animation: fadeInUp 1s ease;
+  text-align: center;
+  color: #ede9fe;
+}
+
+/* Title */
+.signup-container .title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 1.8rem;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 8px #a78bfa;
+}
+
+/* Role Toggle Buttons */
+.role-toggle {
+  display: flex;
+  gap: 0.7rem;
+  margin-bottom: 2.2rem;
+}
+
+.role-toggle button {
+  flex: 1;
+  padding: 0.8rem 1.1rem;
+  border: none;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #ede9fe;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+}
+
+.role-toggle button:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.role-toggle button.active {
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.7);
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  text-align: left;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ddd6fe;
+  margin-bottom: 0.4rem;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  padding: 0.75rem 1.1rem;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.35s ease;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.input-icon:focus-within {
+  border-color: #a78bfa;
+  box-shadow: 0 0 16px rgba(167, 139, 250, 0.6);
+  transform: translateY(-3px);
+}
+
+.input-icon .icon {
+  font-size: 1.3rem;
+  color: #c4b5fd;
+  margin-right: 0.7rem;
+}
+
+input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.1rem;
+  color: #ede9fe;
+}
+
+input::placeholder {
+  color: #c4b5fd;
+}
+
+/* Password Toggle */
+.password-input .toggle-password {
+  cursor: pointer;
+  color: #c4b5fd;
+  margin-left: 0.5rem;
+  transition: color 0.35s;
+}
+
+.password-input .toggle-password:hover {
+  color: #a78bfa;
+}
+
+/* Submit Button */
+.submit-btn {
+  padding: 1rem;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 20px rgba(167, 139, 250, 0.5);
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 28px rgba(167, 139, 250, 0.7);
+}
+
+.submit-btn:disabled {
+  background: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Error Message */
+.error-message {
+  background: rgba(254, 226, 226, 0.95);
+  color: #dc2626;
+  font-size: 0.95rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  animation: shake 0.5s;
+  margin-bottom: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .signup-container {
+    padding: 2rem 1.5rem;
+    border-radius: 18px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .submit-btn {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+  }
+}

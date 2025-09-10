@@ -1,0 +1,117 @@
+/* ===========================
+   Details Page (Refined UI)
+   =========================== */
+
+.details-container {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px) saturate(120%);
+  padding: 2.8rem;
+  margin: 70px auto;
+  max-width: 720px;
+  border-radius: 22px;
+  box-shadow: 0px 12px 28px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+  color: #1e293b;
+  animation: fadeInDetails 0.6s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.details-container:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0px 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Heading ===== */
+.details-container h2 {
+  margin-bottom: 1.8rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #3b82f6, #6366f1, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.details-container h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #9333ea);
+  margin: 12px auto 0;
+  border-radius: 3px;
+}
+
+/* ===== Paragraphs ===== */
+.details-container p {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #475569;
+  margin-bottom: 1.2rem;
+  text-align: justify;
+}
+
+/* ===== Info Section ===== */
+.info-box {
+  background: #f8fafc;
+  border-left: 5px solid #3b82f6;
+  padding: 1rem 1.4rem;
+  border-radius: 12px;
+  margin-bottom: 1.2rem;
+  box-shadow: inset 0px 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s ease;
+}
+
+.info-box:hover {
+  transform: translateX(5px);
+  background: #f1f5f9;
+}
+
+.info-box strong {
+  display: block;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.3rem;
+}
+
+/* ===== Divider ===== */
+.details-container hr {
+  margin: 2rem 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(148, 163, 184, 0.6),
+    transparent
+  );
+}
+
+/* ===== Animation ===== */
+@keyframes fadeInDetails {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .details-container {
+    padding: 1.8rem;
+    margin: 40px 1rem;
+  }
+  .details-container h2 {
+    font-size: 1.7rem;
+  }
+  .details-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}

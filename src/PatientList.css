@@ -1,0 +1,60 @@
+
+.patient-list-container {
+  padding: 0.5rem;
+}
+
+.patient-list-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  color: #666;
+}
+
+.patient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.patient-list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.patient-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.patient-list-item.selected {
+  background-color: rgba(79, 70, 229, 0.1);
+  border-left: 4px solid #4f46e5;
+}
+
+.patient-name {
+  font-weight: bold;
+}
+
+.risk-level-high {
+  color: #ef4444;
+}
+
+.risk-level-medium {
+  color: #f59e0b;
+}
+
+.risk-level-low {
+  color: #22c55e;
+}
+
+.probability {
+  color: #666;
+}

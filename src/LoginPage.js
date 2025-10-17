@@ -1,366 +1,94 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { FaUser, FaLock, FaPhone } from 'react-icons/fa';
-// import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
-// import { db } from './Firebase';
-// import './LoginPage.css';
-
-// export default function LoginPage() {
-//   const navigate = useNavigate();
-//   const [role, setRole] = useState('patient');
-//   const [isSignup, setIsSignup] = useState(false);
-//   const [formData, setFormData] = useState({
-//     fullName: '',
-//     password: '',
-//     phone: ''
-//   });
-//   const [loading, setLoading] = useState(false);
-
-//   const handleInputChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   // Check if user exists
-//   const checkUserExists = async (fullName, role) => {
-//     const q = query(collection(db, "users"), where("fullName", "==", fullName.trim()), where("role", "==", role));
-//     const querySnapshot = await getDocs(q);
-//     return !querySnapshot.empty;
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     if (!formData.fullName) {
-//       alert('Full Name is required');
-//       setLoading(false);
-//       return;
-//     }
-//     if (!formData.password) {
-//       alert('Password is required');
-//       setLoading(false);
-//       return;
-//     }
-//     if (role === 'patient') {
-//       // If logging in, check if patient exists
-//       if (!isSignup) {
-//         const exists = await checkUserExists(formData.fullName, role);
-//         if (exists) {
-//           // Found: normal login
-//           navigate('/patient-dashboard', {
-//             state: { name: formData.fullName }
-//           });
-//         } else {
-//           // Not found: show signup form for phone entry
-//           setIsSignup(true);
-//         }
-//         setLoading(false);
-//       } else {
-//         // Signup logic
-//         if (!formData.phone) {
-//           alert('Phone number is required for new patient signup');
-//           setLoading(false);
-//           return;
-//         }
-//         try {
-//           await addDoc(collection(db, "users"), {
-//             fullName: formData.fullName.trim(),
-//             password: formData.password,
-//             phone: formData.phone,
-//             role
-//           });
-//           alert('Signup successful!');
-//           navigate('/patient-dashboard', {
-//             state: { name: formData.fullName }
-//           });
-//         } catch (error) {
-//           alert("Signup failed: " + error.message);
-//         }
-//         setLoading(false);
-//       }
-//     } else {
-//       // For doctor: similar logic (without phone number)
-//       if (!isSignup) {
-//         const exists = await checkUserExists(formData.fullName, role);
-//         if (exists) {
-//           navigate('/doctor-dashboard', {
-//             state: { name: formData.fullName }
-//           });
-//         } else {
-//           setIsSignup(true);
-//         }
-//         setLoading(false);
-//       } else {
-//         try {
-//           await addDoc(collection(db, "users"), {
-//             fullName: formData.fullName.trim(),
-//             password: formData.password,
-//             role
-//           });
-//           alert('Signup successful!');
-//           navigate('/doctor-dashboard', {
-//             state: { name: formData.fullName }
-//           });
-//         } catch (error) {
-//           alert("Signup failed: " + error.message);
-//         }
-//         setLoading(false);
-//       }
-//     }
-//   };
-
-//   return (
-//     <div className="login-page">
-//       <h1 className="title">DiabetesPredictor</h1>
-//       <div className="login-container">
-//         <div className="role-toggle">
-//           <button className={role === 'patient' ? 'active' : ''} onClick={() => { setRole('patient'); setIsSignup(false); }}>
-//             👤 Patient
-//           </button>
-//           <button className={role === 'doctor' ? 'active' : ''} onClick={() => { setRole('doctor'); setIsSignup(false); }}>
-//             🩺 Doctor
-//           </button>
-//         </div>
-//         <form onSubmit={handleSubmit}>
-//           <label>
-//             Full Name
-//             <div className="input-icon">
-//               <FaUser className="icon" />
-//               <input
-//                 type="text"
-//                 name="fullName"
-//                 placeholder="Enter your full name"
-//                 value={formData.fullName}
-//                 onChange={handleInputChange}
-//                 required
-//               />
-//             </div>
-//           </label>
-//           <label>
-//             Password
-//             <div className="input-icon">
-//               <FaLock className="icon" />
-//               <input
-//                 type="password"
-//                 name="password"
-//                 placeholder="Enter your password"
-//                 value={formData.password}
-//                 onChange={handleInputChange}
-//                 required
-//               />
-//             </div>
-//           </label>
-//           {/* If new patient signing up, show phone field */}
-//           {role === 'patient' && isSignup && (
-//             <label>
-//               Phone Number
-//               <div className="input-icon">
-//                 <FaPhone className="icon" />
-//                 <input
-//                   type="tel"
-//                   name="phone"
-//                   placeholder="Enter your phone number"
-//                   value={formData.phone}
-//                   onChange={handleInputChange}
-//                   required
-//                 />
-//               </div>
-//             </label>
-//           )}
-//           <button type="submit" className="submit-btn" disabled={loading}>
-//             {loading ? 'Please wait...' : isSignup ? 'Sign Up' : 'Login'}
-//           </button>
-          
-//           {/* Sign Up link below button */}
-//           <div style={{ marginTop: '20px', textAlign: 'center' }}>
-//             <span>Don't have an account? </span>
-//             <button
-//               type="button"
-//               className="signup-link"
-//               style={{
-//                 background: 'none',
-//                 border: 'none',
-//                 color: '#1976d2',
-//                 cursor: 'pointer',
-//                 textDecoration: 'underline',
-//                 fontSize: '1rem'
-//               }}
-//               onClick={() => navigate('/signup')}
-//             >
-//               Sign Up
-//             </button>
-//           </div>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock, FaIdBadge } from 'react-icons/fa';
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from './Firebase';
+import { useState } from 'react';
+import { supabase } from './supabaseClient';
+import { useNavigate, Link } from 'react-router-dom';
 import './LoginPage.css';
 
-export default function LoginPage() {
-  const navigate = useNavigate();
+function LoginPage({ onLogin }) {
   const [role, setRole] = useState('patient');
-  const [formData, setFormData] = useState({
-    id: '',
-    fullName: '',
-    password: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError('');
-  };
-
-  const findUserByRoleId = async (id, role) => {
-    // Use patientId or doctorId based on the selected role
-    const idField = role === 'patient' ? 'patientId' : 'doctorId';
-    const q = query(
-      collection(db, "users"),
-      where(idField, "==", id.trim()),
-      where("role", "==", role)
-    );
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) return null;
-    return querySnapshot.docs[0].data();
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
+    setError(null);
 
-    if (!formData.id) {
-      setError(role === 'patient' ? 'Patient ID is required' : 'Doctor ID is required');
-      setLoading(false);
-      return;
-    }
-    if (!formData.fullName) {
-      setError('Full Name is required');
-      setLoading(false);
-      return;
-    }
-    if (!formData.password) {
-      setError('Password is required');
-      setLoading(false);
-      return;
-    }
+    try {
+      const { data: user, error: queryError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('role_specific_id', userId)
+        .eq('role', role)
+        .single();
 
-    const user = await findUserByRoleId(formData.id, role);
-    if (user) {
-      if (
-        user.fullName.trim().toLowerCase() === formData.fullName.trim().toLowerCase() &&
-        user.password === formData.password
-      ) {
-        if (role === 'patient') {
-          navigate('/patient-dashboard', { state: { name: user.fullName } });
-        } else {
-          navigate('/doctor-dashboard', { state: { name: user.fullName } });
-        }
-      } else if (user.fullName.trim().toLowerCase() !== formData.fullName.trim().toLowerCase()) {
-        setError('Full name does not match the given ID.');
-      } else {
-        setError('Incorrect password.');
+      if (queryError || !user || user.password !== password) {
+        setError("Invalid user ID or password for the selected role.");
+        return;
       }
-    } else {
-      setError(`No account found with this ${role === 'patient' ? 'Patient' : 'Doctor'} ID. Please sign up.`);
+
+      const sessionData = {
+        id: user.id,
+        name: user.full_name,
+        role: user.role,
+        role_specific_id: user.role_specific_id,
+      };
+
+      onLogin(sessionData);
+
+      if (user.role === 'doctor') {
+        navigate('/doctor-dashboard');
+      } else {
+        navigate('/patient-dashboard');
+      }
+    } catch (catchError) {
+      console.error("Caught exception:", catchError);
+      setError(`An unexpected error occurred: ${catchError.message}`);
     }
-    setLoading(false);
   };
 
   return (
-    <div className="login-page">
-      <h1 className="title">DiabetesPredictor</h1>
-      <div className="login-container">
-        <div className="role-toggle">
-          <button
-            className={role === 'patient' ? 'active' : ''}
-            onClick={() => { setRole('patient'); setError(''); setFormData({ id: '', fullName: '', password: '' }); }}
-          >
-            👤 Patient
-          </button>
-          <button
-            className={role === 'doctor' ? 'active' : ''}
-            onClick={() => { setRole('doctor'); setError(''); setFormData({ id: '', fullName: '', password: '' }); }}
-          >
-            🩺 Doctor
-          </button>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            {role === 'patient' ? 'Patient ID' : 'Doctor ID'}
-            <div className="input-icon">
-              <FaIdBadge className="icon" />
-              <input
-                type="text"
-                name="id"
-                placeholder={role === 'patient' ? "Enter your Patient ID" : "Enter your Doctor ID"}
-                value={formData.id}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          </label>
-          <label>
-            Full Name
-            <div className="input-icon">
-              <FaUser className="icon" />
-              <input
-                type="text"
-                name="fullName"
-                placeholder="Enter your full name"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          </label>
-          <label>
-            Password
-            <div className="input-icon">
-              <FaLock className="icon" />
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          </label>
-          {error && (
-            <div className="error-message">{error}</div>
-          )}
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? 'Please wait...' : 'Login'}
-          </button>
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <span>Don't have an account? </span>
-            <button
-              type="button"
-              className="signup-link"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#1976d2',
-                cursor: 'pointer',
-                textDecoration: 'underline',
-                fontSize: '1rem'
-              }}
-              onClick={() => navigate('/signup')}
-            >
-              Sign Up
-            </button>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">Welcome Back!</h2>
+        <p className="login-subtitle">Please log in to access your dashboard.</p>
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label htmlFor="role">Role</label>
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+            </select>
           </div>
+          <div className="input-group">
+            <label htmlFor="user_id">User ID</label>
+            <input
+              type="text"
+              id="user_id"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="login-button">Log In</button>
+          {error && <p className="error-message">{error}</p>}
         </form>
+        <p className="signup-link">
+          Don't have an account? <Link to="/signup">Sign Up</Link>
+        </p>
       </div>
     </div>
   );
 }
+
+export default LoginPage;

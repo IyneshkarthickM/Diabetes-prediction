@@ -1,148 +1,15 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { FaUser, FaLock, FaPhone } from 'react-icons/fa';
-// import { collection, addDoc } from "firebase/firestore";
-// import { db } from './Firebase';
-// import './SignupPage.css';
-
-// export default function SignupPage() {
-//   const navigate = useNavigate();
-//   const [role, setRole] = useState('patient');
-//   const [formData, setFormData] = useState({
-//     fullName: '',
-//     age: '',
-//     phone: '',
-//     password: ''
-//   });
-//   const [loading, setLoading] = useState(false);
-
-//   const handleInputChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSignup = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     if (!formData.fullName || !formData.age || !formData.phone || !formData.password) {
-//       alert('Please fill out all fields');
-//       setLoading(false);
-//       return;
-//     }
-//     try {
-//       await addDoc(collection(db, "users"), {
-//         fullName: formData.fullName.trim(),
-//         age: Number(formData.age),
-//         phone: formData.phone,
-//         password: formData.password,
-//         role
-//       });
-//       alert('Signup successful!');
-//       if (role === 'patient') {
-//         navigate('/patient-dashboard', { state: { name: formData.fullName } });
-//       } else {
-//         navigate('/doctor-dashboard', { state: { name: formData.fullName } });
-//       }
-//     } catch (error) {
-//       alert("Signup failed: " + error.message);
-//     }
-//     setLoading(false);
-//   };
-
-//   return (
-//     <div className="signup-page">
-//       <h1 className="title">Sign Up</h1>
-//       <div className="signup-container">
-//         <div className="role-toggle">
-//           <button className={role === 'patient' ? 'active' : ''} onClick={() => setRole('patient')}>
-//             👤 Patient
-//           </button>
-//           <button className={role === 'doctor' ? 'active' : ''} onClick={() => setRole('doctor')}>
-//             🩺 Doctor
-//           </button>
-//         </div>
-//         <form onSubmit={handleSignup}>
-//           <label>
-//             Full Name
-//             <div className="input-icon">
-//               <FaUser className="icon" />
-//               <input
-//                 type="text"
-//                 name="fullName"
-//                 placeholder="Enter your full name"
-//                 value={formData.fullName}
-//                 onChange={handleInputChange}
-//                 required
-//               />
-//             </div>
-//           </label>
-//           <label>
-//             Age
-//             <div className="input-icon">
-//               <input
-//                 type="number"
-//                 name="age"
-//                 placeholder="Enter your age"
-//                 value={formData.age}
-//                 onChange={handleInputChange}
-//                 required
-//                 min="0"
-//               />
-//             </div>
-//           </label>
-//           <label>
-//             Phone Number
-//             <div className="input-icon">
-//               <FaPhone className="icon" />
-//               <input
-//                 type="tel"
-//                 name="phone"
-//                 placeholder="Enter your phone number"
-//                 value={formData.phone}
-//                 onChange={handleInputChange}
-//                 required
-//               />
-//             </div>
-//           </label>
-//           <label>
-//             Password
-//             <div className="input-icon">
-//               <FaLock className="icon" />
-//               <input
-//                 type="password"
-//                 name="password"
-//                 placeholder="Enter your password"
-//                 value={formData.password}
-//                 onChange={handleInputChange}
-//                 required
-//               />
-//             </div>
-//           </label>
-//           <button type="submit" className="submit-btn" disabled={loading}>
-//             {loading ? 'Please wait...' : 'Sign Up'}
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock, FaPhone, FaCalendar, FaIdBadge } from 'react-icons/fa';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
-import { db } from './Firebase';
+import { FaUser, FaLock, FaIdBadge } from 'react-icons/fa';
+import { supabase } from './supabaseClient'; // Import Supabase
 import './SignupPage.css';
+
+// --- Validation Functions ---
 
 // Password: minimum 8 chars, must include at least one number
 function isStrongPassword(password) {
   const strongRegex = /^(?=.*\d).{8,}$/;
   return strongRegex.test(password);
-}
-
-// Phone: exactly 10 digits
-function isValidPhone(phone) {
-  const phoneRegex = /^\d{10}$/;
-  return phoneRegex.test(phone);
 }
 
 export default function SignupPage() {
@@ -151,107 +18,78 @@ export default function SignupPage() {
   const [formData, setFormData] = useState({
     id: '',
     fullName: '',
-    age: '',
-    phone: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
   };
 
-  // Check if user already exists by id and role
+  // Check if a user with the given ID and role already exists in Supabase
   const checkUserExists = async (id, role) => {
-    const idField = role === 'patient' ? 'patientId' : 'doctorId';
-    const q = query(
-      collection(db, "users"),
-      where(idField, "==", id.trim()),
-      where("role", "==", role)
-    );
-    const querySnapshot = await getDocs(q);
-    return !querySnapshot.empty;
+    const { data, error } = await supabase
+      .from('users')
+      .select('role_specific_id')
+      .eq('role_specific_id', id.trim())
+      .eq('role', role);
+      
+    if (error) {
+      console.error('Supabase query error:', error.message);
+      return false; // Assume user doesn't exist if there's a query error
+    }
+    
+    return data && data.length > 0;
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
+    setError('');
 
-    // Validate ID
-    if (!formData.id) {
-      alert(role === 'patient' ? 'Patient ID is required' : 'Doctor ID is required');
-      setLoading(false);
-      return;
-    }
-    if (!formData.fullName) {
-      alert("Full Name is required");
-      setLoading(false);
-      return;
-    }
-    if (!formData.age) {
-      alert("Age is required");
-      setLoading(false);
-      return;
-    }
-    if (!formData.phone) {
-      alert("Phone number is required");
-      setLoading(false);
-      return;
-    }
-    if (!isValidPhone(formData.phone)) {
-      alert("Phone number must be exactly 10 digits.");
-      setLoading(false);
-      return;
-    }
-    if (!formData.password) {
-      alert("Password is required");
-      setLoading(false);
-      return;
-    }
-    if (formData.password.length < 8) {
-      alert("Password must be at least 8 characters long.");
+    const idField = role === 'patient' ? 'Patient ID' : 'Doctor ID';
+    
+    // --- Form Validation ---
+    if (!formData.id || !formData.fullName || !formData.password) {
+      setError('All fields are required.');
       setLoading(false);
       return;
     }
     if (!isStrongPassword(formData.password)) {
-      alert("Password must include at least one number.");
+      setError("Password must be at least 8 characters and contain one number.");
       setLoading(false);
       return;
     }
 
-    // Check if ID exists
+    // --- Check if user already exists ---
     const exists = await checkUserExists(formData.id, role);
     if (exists) {
-      alert("User with this ID already exists. Please log in.");
-      navigate('/');
+      setError(`User with this ${idField} already exists. Please log in.`);
       setLoading(false);
       return;
     }
 
-    // Prepare user object with correct id field
-    const userObj = {
-      fullName: formData.fullName.trim(),
-      age: formData.age,
-      phone: formData.phone,
-      password: formData.password,
-      role,
-    };
-    if (role === 'patient') {
-      userObj.patientId = formData.id.trim();
-    } else {
-      userObj.doctorId = formData.id.trim();
-    }
-
+    // --- Create New User in Supabase ---
     try {
-      await addDoc(collection(db, "users"), userObj);
-      alert("Signup successful!");
-      if (role === 'patient') {
-        navigate('/patient-dashboard', { state: { name: formData.fullName } });
-      } else {
-        navigate('/doctor-dashboard', { state: { name: formData.fullName } });
-      }
-    } catch (error) {
-      alert("Signup failed: " + error.message);
+      const { error: insertError } = await supabase.from('users').insert({
+        role_specific_id: formData.id.trim(),
+        full_name: formData.fullName.trim(),
+        password: formData.password, // In a real app, this should be hashed before insertion.
+        role: role,
+      });
+
+      if (insertError) throw insertError;
+
+      alert("✅ Signup successful! You can now log in.");
+      
+      // On success, pre-fill the login form for the user
+      navigate('/');
+
+    } catch (dbError) {
+      console.error("Error signing up:", dbError);
+      setError(`Signup failed: ${dbError.message}`);
     }
     setLoading(false);
   };
@@ -259,16 +97,17 @@ export default function SignupPage() {
   return (
     <div className="signup-page">
       <div className="signup-container">
+        <h2 className="title">Create Account</h2>
         <div className="role-toggle">
           <button
             className={role === 'patient' ? 'active' : ''}
-            onClick={() => { setRole('patient'); setFormData({ id: '', fullName: '', age: '', phone: '', password: '' }); }}
+            onClick={() => { setRole('patient'); setError(''); setFormData({ id: '', fullName: '', password: '' }); }}
           >
             👤 Patient
           </button>
           <button
             className={role === 'doctor' ? 'active' : ''}
-            onClick={() => { setRole('doctor'); setFormData({ id: '', fullName: '', age: '', phone: '', password: '' }); }}
+            onClick={() => { setRole('doctor'); setError(''); setFormData({ id: '', fullName: '', password: '' }); }}
           >
             🩺 Doctor
           </button>
@@ -281,7 +120,7 @@ export default function SignupPage() {
               <input
                 type="text"
                 name="id"
-                placeholder={role === 'patient' ? "Enter your Patient ID" : "Enter your Doctor ID"}
+                placeholder={role === 'patient' ? "Create a Patient ID" : "Create a Doctor ID"}
                 value={formData.id}
                 onChange={handleInputChange}
                 required
@@ -303,52 +142,33 @@ export default function SignupPage() {
             </div>
           </label>
           <label>
-            Age
-            <div className="input-icon">
-              <FaCalendar className="icon" />
-              <input
-                type="number"
-                name="age"
-                placeholder="Enter your age"
-                value={formData.age}
-                onChange={handleInputChange}
-                min="0"
-                required
-              />
-            </div>
-          </label>
-          <label>
-            Phone Number
-            <div className="input-icon">
-              <FaPhone className="icon" />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Enter your phone number"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                maxLength={10}
-              />
-            </div>
-          </label>
-          <label>
             Password
             <div className="input-icon">
               <FaLock className="icon" />
               <input
                 type="password"
                 name="password"
-                placeholder="Enter your password"
+                placeholder="8+ characters, with a number"
                 value={formData.password}
                 onChange={handleInputChange}
                 required
               />
             </div>
           </label>
+          {error && <div className="error-message">{error}</div>}
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? 'Please wait...' : 'Sign Up'}
+            {loading ? 'Creating Account...' : 'Sign Up'}
           </button>
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <span>Already have an account? </span>
+            <button
+                type="button"
+                className="signup-link"
+                onClick={() => navigate('/')}
+              >
+                Login
+            </button>
+          </div>
         </form>
       </div>
     </div>

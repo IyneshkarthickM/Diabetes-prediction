@@ -1,98 +1,126 @@
-import React, { useEffect, useState } from "react";
-import { db } from "./Firebase";
-import { collection, getDocs, doc, updateDoc, onSnapshot } from "firebase/firestore";
-import "./DoctorDashboard.css";
 
-export default function DoctorDashboard() {
+import React, { useEffect, useState } from "react";
+import { supabase } from "./supabaseClient";
+import "./DoctorDashboard.css";
+import PatientList from "./PatientList";
+import PatientDetails from "./PatientDetails";
+import SummaryCards from "./SummaryCards";
+
+export default function DoctorDashboard({ session, onLogout }) {
+  const { name } = session;
+
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
-  const [suggestion, setSuggestion] = useState("");
-  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "patients"));
-        setPatients(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      } catch (error) {
-        console.error("Error fetching patients:", error);
+    const fetchPatientsAndUsers = async () => {
+      setLoading(true);
+
+      // 1. Fetch all patients
+      const { data: patientsData, error: patientsError } = await supabase
+        .from('patients')
+        .select('*');
+
+      if (patientsError) {
+        console.error('Error fetching patients:', patientsError);
+        setLoading(false);
+        return;
       }
+
+      if (patientsData && patientsData.length > 0) {
+        // 2. Get the user IDs from the patient records (where ID is a UUID)
+        const userIds = patientsData.map(p => p.id).filter(id => id && id.includes('-'));
+
+        // 3. Fetch the full names of the users corresponding to the patients
+        const { data: usersData, error: usersError } = await supabase
+          .from('users')
+          .select('id, full_name')
+          .in('id', userIds);
+
+        if (usersError) {
+          console.error('Error fetching user data:', usersError);
+        }
+
+        // 4. Create a map of user ID to full name
+        const userIdToNameMap = usersData
+          ? usersData.reduce((acc, user) => {
+              acc[user.id] = user.full_name;
+              return acc;
+            }, {})
+          : {};
+
+        // 5. Combine patient data with user full names
+        const parsedData = patientsData.map(patient => {
+            let name = 'Unknown';
+            if (patient.id && patient.id.includes('-')) {
+                name = userIdToNameMap[patient.id] || 'Unknown';
+            } else if (patient.id) {
+                name = patient.id;
+            }
+            return {
+                ...patient,
+                name: name,
+                diabetes: patient.prediction_status === 'Likely Diabetic' ? 1 : 0,
+            }
+        });
+        
+        setPatients(parsedData);
+        if (parsedData.length > 0) {
+          setSelectedPatient(parsedData[0]);
+        }
+      } else {
+        setPatients([]);
+      }
+      
+      setLoading(false);
     };
-    fetchPatients();
+
+    fetchPatientsAndUsers();
   }, []);
 
-  // Fetch notifications in real-time
-  useEffect(() => {
-    const unsub = onSnapshot(collection(db, "doctorNotifications"), (snapshot) => {
-      setNotifications(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
-    return () => unsub();
-  }, []);
-
-  const handleSuggestRoutine = async () => {
-    if (!selectedPatient) return;
-    try {
-      const patientRef = doc(db, "patients", selectedPatient.id);
-      await updateDoc(patientRef, { doctorSuggestion: suggestion });
-      alert("✅ Suggestion sent!");
-      setSuggestion("");
-    } catch (error) {
-      console.error("Error sending suggestion:", error);
-    }
+  const handlePatientSelect = (patient) => {
+    setSelectedPatient(patient);
   };
 
   return (
     <div className="dashboard">
       <header className="navbar">
-        <div className="logo">🩺 Doctor Dashboard</div>
+        <div className="logo">❤️ DiabetesPrediction</div>
+        <div className="user-info">
+          <span>Welcome, Dr. {name}</span>
+          <button onClick={onLogout} className="logout-button">Logout</button>
+        </div>
       </header>
 
-      <div className="notifications">
-        <h3>Notifications</h3>
-        {notifications.length === 0 ? (
-          <p>No new notifications.</p>
-        ) : (
-          <ul>
-            {notifications.map(notification => (
-              <li key={notification.id} className={`notification ${notification.riskLevel}`}>
-                <strong>{notification.patientName}</strong>: {notification.message}
-                <br />
-                <small>{new Date(notification.timestamp.toDate()).toLocaleString()}</small>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <main className="main-content">
+        <SummaryCards patients={patients} />
 
-      <div className="patient-selector">
-        <label>Select Patient:</label>
-        <select onChange={(e) => setSelectedPatient(patients.find(p => p.id === e.target.value))}>
-          <option value="">-- Choose Patient --</option>
-          {patients.map(p => (
-            <option key={p.id} value={p.id} className={p.riskLevel === "high" ? "high-risk" : p.riskLevel === "medium" ? "medium-risk" : ""}>
-              {p.id} {p.riskLevel && `(${p.riskLevel})`}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {selectedPatient && (
-        <section className="section">
-          <h2>{selectedPatient.id}'s Health</h2>
-          <p><b>Age:</b> {selectedPatient.age}</p>
-          <p><b>BMI:</b> {selectedPatient.bmi}</p>
-          <p><b>Glucose:</b> {selectedPatient.bloodGlucoseLevel}</p>
-          <p><b>Risk Level:</b> {selectedPatient.riskLevel || "Unknown"}</p>
-
-          <textarea
-            className="textarea"
-            placeholder="Suggest routine..."
-            value={suggestion}
-            onChange={(e) => setSuggestion(e.target.value)}
-          />
-          <button className="btn save-btn" onClick={handleSuggestRoutine}>Send Suggestion</button>
-        </section>
-      )}
+        <div className="content-container">
+          <div className="patients-container">
+            {loading ? (
+              <p>Loading patients...</p>
+            ) : patients.length > 0 ? (
+              <PatientList
+                patients={patients}
+                onPatientSelect={handlePatientSelect}
+                selectedPatient={selectedPatient}
+              />
+            ) : (
+              <p>No patients found.</p>
+            )}
+          </div>
+          <div className="patient-details-wrapper">
+            {loading ? (
+              <p>Loading patient details...</p>
+            ) : selectedPatient ? (
+              <PatientDetails patient={selectedPatient} />
+            ) : (
+              <p>Select a patient to view details.</p>
+            )}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

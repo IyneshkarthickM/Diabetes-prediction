@@ -1,0 +1,31 @@
+
+.summary-cards {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.summary-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  text-align: center;
+  flex: 1;
+  max-width: 300px;
+}
+
+.summary-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.summary-card .count {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #333;
+}

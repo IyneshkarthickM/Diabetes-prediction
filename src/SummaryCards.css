@@ -1,31 +1,72 @@
+/* =========================
+   Material Design 3 Summary Cards
+========================= */
 
 .summary-cards {
-  display: flex;
-  justify-content: space-around;
-  padding: 1rem 0;
-  margin-bottom: 2rem;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-4);
+  padding: var(--spacing-5) 0;
+  margin-bottom: var(--spacing-5);
 }
 
 .summary-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
+  background: var(--md-surface);
+  border-radius: 12px;
+  box-shadow: var(--md-shadow-light);
+  padding: var(--spacing-5);
   text-align: center;
-  flex: 1;
-  max-width: 300px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.summary-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.summary-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.summary-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--md-shadow-medium);
 }
 
 .summary-card h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #555;
+  margin: 0 0 var(--spacing-3) 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .summary-card .count {
   font-size: 2.5rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
-  color: #333;
+  font-weight: 400;
+  margin: 0;
+  color: var(--md-primary);
+  line-height: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
 }

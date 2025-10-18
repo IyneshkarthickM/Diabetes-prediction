@@ -1,57 +1,100 @@
+/* =========================
+   Material Design 3 Doctor Dashboard
+========================= */
 
 .dashboard {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  background: var(--md-background);
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-4) var(--spacing-6);
+  background: var(--md-surface);
+  border-bottom: 1px solid var(--md-border);
+  box-shadow: var(--md-shadow-light);
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--md-primary);
 }
 
 .user-info {
   display: flex;
   align-items: center;
+  gap: var(--spacing-4);
 }
 
 .user-info span {
-  margin-right: 1rem;
+  font-size: 0.875rem;
+  color: var(--md-text-secondary);
 }
 
 .logout-button {
-  padding: 0.5rem 1rem;
+  padding: 10px 24px;
   border: none;
-  background-color: #4f46e5;
+  background: var(--md-primary);
   color: white;
-  border-radius: 5px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
+  box-shadow: var(--md-shadow-light);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-button:hover {
+  background: var(--md-primary-hover);
+  box-shadow: var(--md-shadow-medium);
 }
 
 .main-content {
   flex: 1;
-  padding: 1rem;
-  background-color: #f7f7f7;
+  padding: var(--spacing-6);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .content-container {
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-5);
+  animation: fadeIn 0.3s ease;
 }
 
 .patients-container {
-  flex: 1;
+  min-width: 0;
 }
 
 .patient-details-wrapper {
-  flex: 2;
+  min-width: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .content-container {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    padding: var(--spacing-4);
+  }
 }

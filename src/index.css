@@ -1,56 +1,92 @@
 /* ===========================
-   Global Styles (Light Theme)
+   Material Design 3 Global Styles
    =========================== */
 
-body {
-  margin: 0;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  /* Spacing System (8px base) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
 
-  /* Light gradient background with subtle animation */
-  background: linear-gradient(135deg, #f0f9ff, #e6f0ff, #fff);
-  background-size: 200% 200%;
-  animation: gradientShift 12s ease infinite;
-
-  color: #1e293b;
-  min-height: 100vh;
-  scroll-behavior: smooth;
+  /* Google Material Design 3 Colors */
+  --md-primary: #1A73E8;
+  --md-primary-hover: #1557B0;
+  --md-primary-light: #E8F0FE;
+  --md-surface: #FFFFFF;
+  --md-background: #F8F9FA;
+  --md-text-primary: #202124;
+  --md-text-secondary: #5F6368;
+  --md-border: #DADCE0;
+  --md-shadow-light: 0 1px 2px 0 rgba(60,64,67,.3), 0 2px 6px 2px rgba(60,64,67,.15);
+  --md-shadow-medium: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
 }
 
-/* Smooth transitions everywhere */
 * {
-  transition: all 0.25s ease-in-out;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0.6rem 0;
-  letter-spacing: 0.5px;
+body {
+  margin: 0;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--md-background);
+  color: var(--md-text-primary);
+  min-height: 100vh;
+}
+
+/* Typography Scale */
+h1 {
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 2.5rem;
   line-height: 1.2;
+  color: var(--md-text-primary);
+  margin: 0;
 }
 
-/* Paragraphs */
+h2 {
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--md-text-primary);
+  margin: 0;
+}
+
+h3 {
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--md-text-primary);
+  margin: 0;
+}
+
+h4 {
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  color: var(--md-text-primary);
+  margin: 0;
+}
+
 p {
-  color: #334155;
-  line-height: 1.7;
-  margin: 0.4rem 0;
-  font-size: 1.05rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-text-secondary);
+  margin: 0;
 }
 
-/* Code */
 code {
-  font-family: "Source Code Pro", Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
   background: rgba(0, 0, 0, 0.05);
   padding: 0.25rem 0.6rem;
   border-radius: 6px;
@@ -61,186 +97,120 @@ code {
 /* Links */
 a {
   text-decoration: none;
-  color: #2563eb;
+  color: var(--md-primary);
   font-weight: 500;
-  position: relative;
+  transition: color 0.2s ease;
 }
-a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -3px;
-  left: 0;
-  background: #2563eb;
-  transition: width 0.3s ease;
-}
+
 a:hover {
-  color: #1d4ed8;
-}
-a:hover::after {
-  width: 100%;
+  color: var(--md-primary-hover);
 }
 
 /* ===========================
-   Buttons
+   Material Design Buttons
    =========================== */
 button,
 input[type="submit"] {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  font-family: 'Roboto', sans-serif;
+  background: var(--md-primary);
   color: #fff;
   border: none;
-  padding: 0.75rem 1.6rem;
-  font-size: 1rem;
-  border-radius: 14px;
-  font-weight: 600;
+  padding: 10px 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s;
+  box-shadow: var(--md-shadow-light);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 button:hover,
 input[type="submit"]:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.3);
+  background: var(--md-primary-hover);
+  box-shadow: var(--md-shadow-medium);
 }
 
-button:active,
-input[type="submit"]:active {
-  transform: scale(0.97);
+button:active {
+  transform: scale(0.98);
 }
 
 button.secondary {
   background: transparent;
-  border: 2px solid #2563eb;
-  color: #2563eb;
+  border: 1px solid var(--md-border);
+  color: var(--md-primary);
+  box-shadow: none;
 }
+
 button.secondary:hover {
-  background: rgba(37, 99, 235, 0.08);
+  background: var(--md-primary-light);
 }
 
 /* ===========================
-   Cards
+   Material Design Cards
    =========================== */
 .card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 1.6rem;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
-}
-.card h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-  color: #1e293b;
-}
-.card p {
-  font-size: 1rem;
-  color: #475569;
-  line-height: 1.6;
+  background: var(--md-surface);
+  border-radius: 12px;
+  padding: var(--spacing-5);
+  box-shadow: var(--md-shadow-light);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Card accents */
-.card.red {
-  border-left: 6px solid #ef4444;
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--md-shadow-medium);
 }
-.card.green {
-  border-left: 6px solid #22c55e;
+
+.card h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-3);
+  color: var(--md-text-primary);
 }
-.card.blue {
-  border-left: 6px solid #2563eb;
-}
-.card.purple {
-  border-left: 6px solid #7c3aed;
-}
-.card.orange {
-  border-left: 6px solid #f97316;
+
+.card p {
+  font-size: 0.875rem;
+  color: var(--md-text-secondary);
+  line-height: 1.5;
 }
 
 /* ===========================
-   Inputs + Forms
+   Material Design Inputs
    =========================== */
 input,
 select,
 textarea {
+  font-family: 'Roboto', sans-serif;
   width: 100%;
-  padding: 0.8rem 1rem;
-  margin: 0.5rem 0 1.2rem 0;
-  border: 1.5px solid rgba(0, 0, 0, 0.1);
-  border-radius: 14px;
+  padding: 12px 16px;
+  margin: var(--spacing-2) 0;
+  border: 1px solid var(--md-border);
+  border-radius: 4px;
   font-size: 1rem;
-  background: #fff;
-  color: #1e293b;
-  transition: border 0.25s ease, box-shadow 0.25s ease;
+  background: var(--md-surface);
+  color: var(--md-text-primary);
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
+
 input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border: 2px solid #2563eb;
-  background: #f8fafc;
-  box-shadow: 0 0 8px rgba(37, 99, 235, 0.25);
+  border-color: var(--md-primary);
+  border-width: 2px;
+  padding: 11px 15px;
+  background: var(--md-surface);
 }
 
 /* ===========================
-   Glassmorphism Container
+   Animations
    =========================== */
-.glass-container {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-radius: 22px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 2.5rem;
-  margin: 2rem auto;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-  color: #1e293b;
-  animation: fadeInGlass 0.7s ease;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 900px;
-}
-.glass-container:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
-}
-.glass-container h2,
-.glass-container h3 {
-  text-align: center;
-  font-weight: 700;
-  margin-bottom: 1.6rem;
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.glass-container p {
-  color: #475569;
-  line-height: 1.7;
-  font-size: 1.07rem;
-  margin-bottom: 1rem;
-}
-.glass-container hr {
-  margin: 2rem 0;
-  border: none;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(148, 163, 184, 0.6),
-    transparent
-  );
-}
-
-@keyframes fadeInGlass {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -248,16 +218,30 @@ textarea:focus {
   }
 }
 
-@keyframes gradientShift {
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Skeleton Loader */
+@keyframes shimmer {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    background-position: -200% 0;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 200% 0;
   }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
 }
 
 /* ===========================
@@ -266,13 +250,16 @@ textarea:focus {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--md-background);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #94a3b8;
-  border-radius: 6px;
+  background: var(--md-border);
+  border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: var(--md-text-secondary);
 }

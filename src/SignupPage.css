@@ -1,200 +1,182 @@
-/* Signup Page Wrapper */
+/* =========================
+   Material Design 3 Signup Page
+========================= */
+
 .signup-page {
-  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #4c1d95, #7c3aed, #a78bfa);
+  background: var(--md-background);
+  padding: var(--spacing-5);
 }
 
-/* Glassmorphism Container (same as Login) */
 .signup-container {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px) saturate(220%);
-  -webkit-backdrop-filter: blur(20px) saturate(220%);
-  border-radius: 24px;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  padding: 3rem 2.5rem;
-  width: 100%;
+  background: var(--md-surface);
+  border-radius: 12px;
+  padding: var(--spacing-7);
   max-width: 440px;
-  box-shadow: 0 12px 36px rgba(124, 58, 237, 0.4);
-  animation: fadeInUp 1s ease;
+  width: 100%;
+  box-shadow: var(--md-shadow-light);
+  animation: fadeIn 0.3s ease;
+}
+
+.title {
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--md-text-primary);
   text-align: center;
-  color: #ede9fe;
+  margin-bottom: var(--spacing-6);
 }
 
-/* Title */
-.signup-container .title {
-  font-size: 2.4rem;
-  font-weight: 800;
-  margin-bottom: 1.8rem;
-  background: linear-gradient(135deg, #a78bfa, #7c3aed);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 8px #a78bfa;
-}
-
-/* Role Toggle Buttons */
 .role-toggle {
   display: flex;
-  gap: 0.7rem;
-  margin-bottom: 2.2rem;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-6);
+  background: var(--md-background);
+  padding: var(--spacing-1);
+  border-radius: 20px;
 }
 
 .role-toggle button {
   flex: 1;
-  padding: 0.8rem 1.1rem;
+  padding: 10px 20px;
   border: none;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.25);
-  color: #ede9fe;
-  font-weight: 600;
+  background: transparent;
+  color: var(--md-text-secondary);
+  font-weight: 500;
+  font-size: 0.875rem;
+  font-family: 'Roboto', sans-serif;
   cursor: pointer;
-  transition: all 0.35s ease;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
-}
-
-.role-toggle button:hover {
-  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.2s ease;
+  box-shadow: none;
 }
 
 .role-toggle button.active {
-  background: linear-gradient(90deg, #7c3aed, #a78bfa);
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(167, 139, 250, 0.7);
+  background: var(--md-surface);
+  color: var(--md-primary);
+  box-shadow: var(--md-shadow-light);
 }
 
-/* Form */
 form {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
-  text-align: left;
+  gap: var(--spacing-4);
 }
 
 label {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ddd6fe;
-  margin-bottom: 0.4rem;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--md-text-secondary);
+  margin-bottom: var(--spacing-1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .input-icon {
+  position: relative;
   display: flex;
   align-items: center;
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
-  border-radius: 16px;
-  padding: 0.75rem 1.1rem;
-  background: rgba(255, 255, 255, 0.15);
-  transition: all 0.35s ease;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+  border: 1px solid var(--md-border);
+  border-radius: 4px;
+  background: var(--md-surface);
+  transition: border-color 0.2s ease;
 }
 
 .input-icon:focus-within {
-  border-color: #a78bfa;
-  box-shadow: 0 0 16px rgba(167, 139, 250, 0.6);
-  transform: translateY(-3px);
+  border-color: var(--md-primary);
+  border-width: 2px;
 }
 
 .input-icon .icon {
-  font-size: 1.3rem;
-  color: #c4b5fd;
-  margin-right: 0.7rem;
+  font-size: 1.25rem;
+  color: var(--md-text-secondary);
+  margin-left: var(--spacing-4);
+  margin-right: var(--spacing-2);
 }
 
-input {
+.input-icon input {
   flex: 1;
   border: none;
   outline: none;
   background: transparent;
-  font-size: 1.1rem;
-  color: #ede9fe;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--md-text-primary);
+  padding: 12px var(--spacing-4) 12px 0;
+  margin: 0;
+}
+
+.input-icon:focus-within input {
+  padding: 11px var(--spacing-4) 11px 0;
 }
 
 input::placeholder {
-  color: #c4b5fd;
+  color: var(--md-text-secondary);
+  opacity: 0.6;
 }
 
-/* Password Toggle */
 .password-input .toggle-password {
   cursor: pointer;
-  color: #c4b5fd;
-  margin-left: 0.5rem;
-  transition: color 0.35s;
+  color: var(--md-text-secondary);
+  margin-right: var(--spacing-4);
+  transition: color 0.2s ease;
+  font-size: 1.25rem;
 }
 
 .password-input .toggle-password:hover {
-  color: #a78bfa;
+  color: var(--md-primary);
 }
 
-/* Submit Button */
 .submit-btn {
-  padding: 1rem;
-  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  width: 100%;
+  background: var(--md-primary);
+  color: white;
   border: none;
+  padding: 12px 24px;
   border-radius: 20px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
-  margin-top: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
   cursor: pointer;
-  transition: all 0.35s ease;
-  box-shadow: 0 6px 20px rgba(167, 139, 250, 0.5);
+  box-shadow: var(--md-shadow-light);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  margin-top: var(--spacing-4);
 }
 
 .submit-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 10px 28px rgba(167, 139, 250, 0.7);
+  background: var(--md-primary-hover);
+  box-shadow: var(--md-shadow-medium);
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
 }
 
 .submit-btn:disabled {
-  background: #6b7280;
+  background: var(--md-text-secondary);
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
-/* Error Message */
 .error-message {
-  background: rgba(254, 226, 226, 0.95);
-  color: #dc2626;
-  font-size: 0.95rem;
-  padding: 0.7rem;
-  border-radius: 10px;
-  animation: shake 0.5s;
-  margin-bottom: 0.5rem;
+  background: #FCE8E6;
+  color: #C5221F;
+  padding: var(--spacing-3);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  border-left: 4px solid #C5221F;
 }
 
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive */
 @media (max-width: 500px) {
   .signup-container {
-    padding: 2rem 1.5rem;
-    border-radius: 18px;
+    padding: var(--spacing-5);
   }
 
   .title {
-    font-size: 1.8rem;
-  }
-
-  .submit-btn {
-    font-size: 1.1rem;
-    padding: 0.8rem;
+    font-size: 1.5rem;
   }
 }

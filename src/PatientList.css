@@ -1,60 +1,111 @@
+/* =========================
+   Material Design 3 Patient List (Data Table)
+========================= */
 
 .patient-list-container {
-  padding: 0.5rem;
+  background: var(--md-surface);
+  border-radius: 12px;
+  box-shadow: var(--md-shadow-light);
+  overflow: hidden;
 }
 
 .patient-list-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1rem 0.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-weight: bold;
-  color: #666;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: var(--spacing-4) var(--spacing-5);
+  background: var(--md-background);
+  border-bottom: 1px solid var(--md-border);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--md-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .patient-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
 }
 
 .patient-list-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: var(--spacing-4) var(--spacing-5);
+  border-bottom: 1px solid var(--md-border);
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 8px;
+  transition: background 0.2s ease;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.patient-list-item:nth-child(1) { animation-delay: 0.05s; }
+.patient-list-item:nth-child(2) { animation-delay: 0.1s; }
+.patient-list-item:nth-child(3) { animation-delay: 0.15s; }
+.patient-list-item:nth-child(4) { animation-delay: 0.2s; }
+.patient-list-item:nth-child(5) { animation-delay: 0.25s; }
+
+.patient-list-item:last-child {
+  border-bottom: none;
 }
 
 .patient-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background: var(--md-background);
 }
 
 .patient-list-item.selected {
-  background-color: rgba(79, 70, 229, 0.1);
-  border-left: 4px solid #4f46e5;
+  background: var(--md-primary-light);
+  border-left: 4px solid var(--md-primary);
+  padding-left: calc(var(--spacing-5) - 4px);
 }
 
 .patient-name {
-  font-weight: bold;
+  font-weight: 500;
+  color: var(--md-text-primary);
+  font-size: 0.875rem;
 }
 
 .risk-level-high {
-  color: #ef4444;
+  color: #C5221F;
+  font-weight: 500;
 }
 
 .risk-level-medium {
-  color: #f59e0b;
+  color: #E37400;
+  font-weight: 500;
 }
 
 .risk-level-low {
-  color: #22c55e;
+  color: #137333;
+  font-weight: 500;
 }
 
 .probability {
-  color: #666;
+  color: var(--md-text-secondary);
+  font-size: 0.875rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .patient-list-header,
+  .patient-list-item {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2);
+  }
+
+  .patient-list-header span:not(:first-child),
+  .patient-list-item span:not(:first-child) {
+    font-size: 0.75rem;
+  }
 }

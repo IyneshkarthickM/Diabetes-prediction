@@ -1,6 +1,0 @@
-fastapi
-firebase-admin
-joblib
-pandas
-uvicorn
-scikit-learn
